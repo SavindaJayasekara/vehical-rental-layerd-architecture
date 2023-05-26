@@ -5,9 +5,7 @@ import lk.ijse.ikmanRental.dao.DAOFactory;
 import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.*;
 import lk.ijse.ikmanRental.dto.*;
-import lk.ijse.ikmanRental.entity.Booking;
-import lk.ijse.ikmanRental.entity.Customer;
-import lk.ijse.ikmanRental.entity.Vehicle;
+import lk.ijse.ikmanRental.entity.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,6 +76,7 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public boolean saveBooking(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException {
+//        transaction
         return false;
     }
 
@@ -103,72 +102,79 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public Double getStatusFromDriver(String driverNic) {
-        return null;
+    public Double getStatusFromDriver(String driverNic) throws SQLException {
+        return driverDAO.getStatus(driverNic);
     }
 
     @Override
-    public List<String> getAvailbleTypeFromVehicle(String type) {
-        return null;
+    public List<String> getAvailbleTypeFromVehicle(String type) throws SQLException {
+        return vehicleDAO.getAvailbleType(type);
     }
 
     @Override
-    public String getNameFromCustomer(String customerNic) {
-        return null;
+    public String getNameFromCustomer(String customerNic) throws SQLException {
+        return customerDAO.getName(customerNic);
     }
 
     @Override
-    public String getDriverNameFromDriver(String driverNic) {
-        return null;
+    public String getDriverNameFromDriver(String driverNic) throws SQLException {
+        return driverDAO.getName(driverNic);
     }
 
     @Override
-    public String getBillIdFromBill(String bookingID) {
-        return null;
+    public String getBillIdFromBill(String bookingID) throws SQLException {
+        return billDAO.getBillid(bookingID);
     }
 
     @Override
-    public String getPaymentIDFromDriverPayment(String driverNic) {
-        return null;
+    public String getPaymentIDFromDriverPayment(String driverNic) throws SQLException {
+        return paymentDAO.getPaymentID(driverNic);
     }
 
     @Override
     public boolean update(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException {
+//        transaction
         return false;
     }
 
     @Override
     public boolean deleteBooking(String bookingID) throws SQLException {
+//        transaction !
         return bookingDAO.deleteBooking(bookingID);
     }
 
     @Override
-    public BookingDTO getAllBookingFromID(String bookingID) {
-        return null;
+    public BookingDTO getAllBookingFromID(String bookingID) throws SQLException {
+        Booking booking = bookingDAO.getIdes(bookingID);
+        return new BookingDTO(booking.getBookingID(),booking.getStatus(),booking.getAmountsCost(),booking.getRequiredDate(),booking.getRideTo(),booking.getDistance(),booking.getCustomerNic());
     }
 
     @Override
-    public BookingDetailDTO getAllbookingDetail(String bookingId) {
-        return null;
+    public BookingDetailDTO getAllbookingDetail(String bookingId) throws SQLException {
+        BookingDetail bookingDetail = detailDAO.getIdes(bookingId);
+        return new BookingDetailDTO(bookingDetail.getBookingId(),bookingDetail.getVehicleNumber(),bookingDetail.getFuel());
     }
 
     @Override
-    public DriverScheduleDTO getDriverScheduleFromId(String bookingID) {
-        return null;
+    public DriverScheduleDTO getDriverScheduleFromId(String bookingID) throws SQLException {
+        DriverSchedule ides = driverScheduleDAO.getIdes(bookingID);
+        return new DriverScheduleDTO(ides.getBookingID(),ides.getDriverNic());
     }
 
     @Override
-    public BillDTO getBillFromID(String bookingID) {
-        return null;
+    public BillDTO getBillFromID(String bookingID) throws SQLException {
+        Bill bill = billDAO.getIdes(bookingID);
+        return new BillDTO(bill.getBillID(),bill.getBookingID(),bill.getCustomerNIC(),bill.getDriverNic(),bill.getCost(),bill.getVehicleNumber(),bill.getCurrentDate());
     }
 
     @Override
-    public DriverPaymentDTO getAllFromDriverPayment(String driverNIC) {
-        return null;
+    public DriverPaymentDTO getAllFromDriverPayment(String driverNIC) throws SQLException {
+        DriverPayment payment = paymentDAO.getIdes(driverNIC);
+        return new DriverPaymentDTO(payment.getPaymentID(),payment.getStatus(),payment.getPaymentCost(),payment.getDriverNic());
     }
 
     @Override
-    public String getTypeFromDriver(String vehicleNumber) throws SQLException {
-        return null;
+    public String getTypeFromDriver(String driverId) throws SQLException {
+        return driverDAO.getType(driverId);
     }
 }

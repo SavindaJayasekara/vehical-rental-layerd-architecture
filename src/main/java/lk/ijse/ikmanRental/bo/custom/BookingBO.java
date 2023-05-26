@@ -42,23 +42,23 @@ public interface BookingBO extends SuperBO {
 
     String getDriverNameFromDriver(String driverNic)throws SQLException;
 
-    String getBillIdFromBill(String bookingID);
+    String getBillIdFromBill(String bookingID) throws SQLException;
 
-    String getPaymentIDFromDriverPayment(String driverNic);
+    String getPaymentIDFromDriverPayment(String driverNic) throws SQLException;
 
     boolean update(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException;
 
     boolean deleteBooking(String bookingID)throws SQLException;
 
-    BookingDTO getAllBookingFromID(String bookingID);
+    BookingDTO getAllBookingFromID(String bookingID) throws SQLException;
 
-    BookingDetailDTO getAllbookingDetail(String bookingId);
+    BookingDetailDTO getAllbookingDetail(String bookingId) throws SQLException;
 
-    DriverScheduleDTO getDriverScheduleFromId(String bookingID);
+    DriverScheduleDTO getDriverScheduleFromId(String bookingID) throws SQLException;
 
-    BillDTO getBillFromID(String bookingID);
+    BillDTO getBillFromID(String bookingID) throws SQLException;
 
-    DriverPaymentDTO getAllFromDriverPayment(String driverNIC);
+    DriverPaymentDTO getAllFromDriverPayment(String driverNIC) throws SQLException;
 
     String getTypeFromDriver(String vehicleNumber) throws SQLException;
 

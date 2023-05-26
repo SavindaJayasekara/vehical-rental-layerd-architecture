@@ -76,7 +76,11 @@ public class CustomerDAOImpl  implements CustomerDAO{
     }
 
     @Override
-    public String getName(String driverNic) throws SQLException {
+    public String getName(String customerNIC) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT Name FROM customer WHERE CustomerNIC=?",customerNIC);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 

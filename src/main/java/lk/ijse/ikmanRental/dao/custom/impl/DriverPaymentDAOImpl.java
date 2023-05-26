@@ -31,6 +31,10 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public DriverPayment getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM payment WHERE DriverNIC =?",s);
+        if (resultSet.next()){
+            return new DriverPayment(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3),resultSet.getString(4));
+        }
         return null;
     }
 
@@ -56,6 +60,10 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public String getPaymentID(String id) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT PaymentID FROM payment WHERE DriverNIC=?",id);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 

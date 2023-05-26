@@ -48,16 +48,28 @@ public class DriverDAOImpl  implements DriverDAO{
 
     @Override
     public String getName(String driverNic) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT Name FROM driver WHERE DriverNIC=?",driverNic);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 
     @Override
     public Double getStatus(String driverNic) throws SQLException {
-        return null;
+        ResultSet resultSet=SQLUtil.execute("SELECT Status FROM driver WHERE DriverNIC=?",driverNic);
+        if (resultSet.next()){
+            return resultSet.getDouble(1);
+        }
+        return 0.0;
     }
 
     @Override
-    public String getType(String vehicleNumber) throws SQLException {
+    public String getType(String driverNic) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT Type FROM vehicle WHERE VehicleNumber=?",driverNic);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 

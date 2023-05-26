@@ -31,6 +31,10 @@ public class DriverScheduleDAOImpl implements DriverScheduleDAO{
 
     @Override
     public DriverSchedule getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM drivershedeul WHERE BookingID =?",s);
+        if (resultSet.next()){
+            return new DriverSchedule(resultSet.getString(1),resultSet.getString(2));
+        }
         return null;
     }
 

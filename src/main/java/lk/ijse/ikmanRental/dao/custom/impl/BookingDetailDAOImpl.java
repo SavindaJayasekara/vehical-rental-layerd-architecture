@@ -33,6 +33,10 @@ public class BookingDetailDAOImpl implements BookingDetailDAO {
 
     @Override
     public BookingDetail getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM bookingdetail WHERE BookingID =?",s);
+        if (resultSet.next()){
+            return new BookingDetail(resultSet.getString(1),resultSet.getString(2),resultSet.getDouble(3));
+        }
         return null;
     }
 

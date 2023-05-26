@@ -32,6 +32,10 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     public Bill getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM billing WHERE BookingID =?",s);
+        if (resultSet.next()){
+            return new Bill(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getDouble(5),resultSet.getString(6),resultSet.getDate(7));
+        }
         return null;
     }
 
@@ -57,6 +61,10 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     public String getBillid(String bookingID) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT BillID FROM billing WHERE BookingID=?",bookingID);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 }

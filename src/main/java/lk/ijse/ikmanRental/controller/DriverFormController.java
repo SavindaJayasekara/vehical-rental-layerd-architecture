@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.dto.DriverDTO;
+import lk.ijse.ikmanRental.dto.DriverPaymentDTO;
 import lk.ijse.ikmanRental.dto.tm.DriverPaymentTM;
 import lk.ijse.ikmanRental.dto.tm.DriverTM;
 import javafx.collections.FXCollections;
@@ -12,8 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ikmanRental.model.DriverModel;
-import lk.ijse.ikmanRental.model.DriverPaymentModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -109,8 +109,8 @@ public class DriverFormController {
     private void fillPayment() {
         ObservableList<DriverPaymentTM> paymentTMS=FXCollections.observableArrayList();
         try {
-            List<DriverPayment> payments= DriverPaymentModel.getAll();
-            for (DriverPayment payment : payments){
+            List<DriverPaymentDTO> payments= DriverPaymentModel.getAll();
+            for (DriverPaymentDTO payment : payments){
                 paymentTMS.add(new DriverPaymentTM(
                         payment.getPaymentID(),
                         payment.getStatus(),
@@ -128,9 +128,9 @@ public class DriverFormController {
         ObservableList<DriverTM> obList = FXCollections.observableArrayList();
 
         try {
-            List<Driver> drivers=DriverModel.getAll();
+            List<DriverDTO> drivers=DriverModel.getAll();
 
-            for (Driver data:drivers){
+            for (DriverDTO data:drivers){
                 obList.add(new DriverTM(
                         data.getName(),
                         data.getGender(),
@@ -180,7 +180,7 @@ public class DriverFormController {
         String status=txtStatus.getText();
         String gender = (String) cmdGender.getValue();
 
-        Driver driver = new Driver(nic,gmail,name,gender,status);
+        DriverDTO driver = new DriverDTO(nic,gmail,name,gender,status);
 
         if (txtNic.getText().length()>1){
             try {
@@ -220,7 +220,7 @@ public class DriverFormController {
         String nic = (String) cmbNic.getValue();
 
         try {
-            Driver driver=DriverModel.getAllDrivers(nic);
+            DriverDTO driver=DriverModel.getAllDrivers(nic);
 
             assert driver != null;
             txtEditGmail.setText(driver.getGmail());
@@ -241,7 +241,7 @@ public class DriverFormController {
 
 
 
-        Driver driver = new Driver(
+        DriverDTO driver = new DriverDTO(
                 cmbNic.getValue(),
                 gmail,
                 name,

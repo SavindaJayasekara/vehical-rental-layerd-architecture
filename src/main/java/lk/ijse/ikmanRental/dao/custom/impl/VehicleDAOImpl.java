@@ -1,9 +1,12 @@
 package lk.ijse.ikmanRental.dao.custom.impl;
 
+import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.VehicleDAO;
 import lk.ijse.ikmanRental.entity.Vehicle;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleDAOImpl implements VehicleDAO{
@@ -39,7 +42,12 @@ public class VehicleDAOImpl implements VehicleDAO{
 
     @Override
     public List<String> getAvailbleType(String type) throws SQLException {
-        return null;
+        List<String> idList =new ArrayList<>();
+        ResultSet resultSet= SQLUtil.execute("SELECT VehicleNumber FROM vehicle WHERE Type=? && Availability='AVAILABLE';",type);
+        while (resultSet.next()){
+            idList.add(resultSet.getString(1));
+        }
+        return idList;
     }
 
     @Override
