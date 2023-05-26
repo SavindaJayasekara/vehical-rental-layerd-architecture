@@ -10,13 +10,14 @@ import java.util.List;
 
 public class DriverScheduleDAOImpl implements DriverScheduleDAO{
     @Override
-    public boolean save(DriverSchedule dto) throws SQLException {
-        return false;
+    public boolean save(DriverSchedule entity) throws SQLException {
+        return SQLUtil.execute("INSERT INTO drivershedeul(BookingID,DriverNIC)" +
+                "VALUES(?, ?)",entity.getBookingID(),entity.getDriverNic());
     }
 
     @Override
-    public boolean update(DriverSchedule dto) throws SQLException {
-        return false;
+    public boolean update(DriverSchedule entity) throws SQLException {
+        return SQLUtil.execute("UPDATE drivershedeul SET DriverNIC=? WHERE BookingID=?",entity.getDriverNic(),entity.getBookingID());
     }
 
     @Override

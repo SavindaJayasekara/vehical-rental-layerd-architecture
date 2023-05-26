@@ -150,13 +150,15 @@ public class BookingBOImpl implements BookingBO {
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
             return true;
 
         } catch (SQLException e) {
-            connection.rollback();
-            connection.setAutoCommit(true);
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             return false;
+        }finally {
+            connection.setAutoCommit(true);
+            connection.rollback();
         }
     }
 
@@ -168,11 +170,7 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public String getDriverGmail(String driverNic) throws SQLException {
-        ResultSet resultSet= SQLUtil.execute("SELECT Gamil FROM driver WHERE DriverNIC=?",driverNic);
-        if (resultSet.next()){
-            return resultSet.getString(1);
-        }
-        return null;
+        return driverDAO.getGmail(driverNic);
     }
 
     @Override
@@ -218,9 +216,74 @@ public class BookingBOImpl implements BookingBO {
 
         try {
             connection= DBConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+            if (!bookingDAO.update(new Booking(
+                    booking.getBookingID(),
+                    booking.getStatus(),
+                    booking.getAmountsCost(),
+                    booking.getRequiredDate(),
+                    booking.getRideTo(),
+                    booking.getDistance(),
+                    booking.getCustomerNic()
+            )))
+            {
+                connection.setAutoCommit(true);
+                connection.rollback();
+                return false;
+            }
+
+            if (!billDAO.update(new Bill(
+                    bill.getBillID(),bill.getBookingID(),
+                    bill.getCustomerNIC(),
+                    bill.getDriverNic(),
+                    bill.getCost(),
+                    bill.getVehicleNumber(),
+                    bill.getCurrentDate())))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!paymentDAO.update(new DriverPayment(
+                    driverPay.getPaymentID(),
+                    driverPay.getStatus(),
+                    driverPay.getPaymentCost(),
+                    driverPay.getDriverNic())))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!driverScheduleDAO.update(new DriverSchedule(
+                    driverSchedule.getBookingID(),
+                    driverSchedule.getDriverNic()
+            )))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!detailDAO.update(new BookingDetail(
+                    bookingDetail.getBookingId(),
+                    bookingDetail.getVehicleNumber(),
+                    bookingDetail.getFuel()
+            )))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            connection.commit();
+            connection.setAutoCommit(true);
+            return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }finally {
+            connection.rollback();
+            connection.setAutoCommit(true);
         }
         return false;
     }
@@ -228,7 +291,16 @@ public class BookingBOImpl implements BookingBO {
     @Override
     public boolean deleteBooking(String bookingID) throws SQLException {
 //        transaction !
-        return bookingDAO.deleteBooking(bookingID);
+        Connection connection=null;
+        try {
+            connection=DBConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

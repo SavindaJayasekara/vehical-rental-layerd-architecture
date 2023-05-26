@@ -13,12 +13,13 @@ public class BookingDetailDAOImpl implements BookingDetailDAO {
 
     @Override
     public boolean save(BookingDetail entity) throws SQLException {
-        return false;
+        return SQLUtil.execute("INSERT INTO bookingdetail(BookingID,VehicleNumber,fuel)" +
+                "VALUES(?, ?, ?)",entity.getBookingId(),entity.getVehicleNumber(),entity.getFuel());
     }
 
     @Override
     public boolean update(BookingDetail entity) throws SQLException {
-        return false;
+        return SQLUtil.execute("UPDATE bookingdetail SET VehicleNumber=? ,fuel=? WHERE BookingID=?",entity.getVehicleNumber(),entity.getFuel(),entity.getBookingId());
     }
 
     @Override

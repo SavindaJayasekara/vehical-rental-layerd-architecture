@@ -80,6 +80,10 @@ public class DriverDAOImpl  implements DriverDAO{
 
     @Override
     public String getGmail(String nic) throws SQLException {
+        ResultSet resultSet= SQLUtil.execute("SELECT Gamil FROM driver WHERE DriverNIC=?",nic);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 }

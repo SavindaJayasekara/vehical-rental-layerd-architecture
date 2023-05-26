@@ -11,13 +11,16 @@ import java.util.List;
 public class BillDAOImpl implements BillDAO {
 
     @Override
-    public boolean save(Bill dto) throws SQLException {
-        return false;
+    public boolean save(Bill entity) throws SQLException {
+        return SQLUtil.execute("INSERT INTO billing(BillID,BookingID,CustomerNIC,DriverNIC,Cost,VehicleNumber,Date)" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?)",entity.getBillID(),entity.getBookingID(),
+                entity.getCustomerNIC(),entity.getDriverNic(),entity.getCost(),entity.getVehicleNumber(),
+                entity.getCurrentDate());
     }
 
     @Override
-    public boolean update(Bill dto) throws SQLException {
-        return false;
+    public boolean update(Bill entity) throws SQLException {
+        return SQLUtil.execute("UPDATE billing SET BookingID=? ,CustomerNIC=? ,DriverNIC=? ,Cost=? ,VehicleNumber=? ,Date=? WHERE BillID=?",entity.getBookingID(),entity.getCustomerNIC(),entity.getDriverNic(),entity.getCost(),entity.getVehicleNumber(),entity.getCurrentDate(),entity.getBillID());
     }
 
     @Override

@@ -12,7 +12,10 @@ import java.util.List;
 public class BookingDAOImpl implements BookingDAO{
     @Override
     public boolean save(Booking entity) throws SQLException {
-        return false;
+        return SQLUtil.execute("INSERT INTO booking (BookingID,Status,AmmountCost,RequriedDate,RideTO,Distance,CustomerNIC)" +
+                "VALUES(?, ?, ?, ?, ?, ?, ?)",entity.getBookingID(),entity.getStatus(),entity.getAmountsCost(),
+                entity.getRequiredDate(),entity.getRideTo(),entity.getDistance(),
+                entity.getCustomerNic());
     }
 
     @Override

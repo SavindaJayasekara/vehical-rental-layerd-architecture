@@ -10,13 +10,14 @@ import java.util.List;
 
 public class DriverPaymentDAOImpl implements DriverPaymentDAO{
     @Override
-    public boolean save(DriverPayment dto) throws SQLException {
-        return false;
+    public boolean save(DriverPayment entity) throws SQLException {
+        return SQLUtil.execute("INSERT INTO payment(PaymentID,Status,PaymentCost,DriverNIC)" +
+                "VALUES(? ,? ,? ,?)",entity.getPaymentID(),entity.getStatus(),entity.getPaymentCost(),entity.getDriverNic());
     }
 
     @Override
-    public boolean update(DriverPayment dto) throws SQLException {
-        return false;
+    public boolean update(DriverPayment entity) throws SQLException {
+        return SQLUtil.execute("UPDATE payment SET Status=? ,PaymentCost=? ,DriverNIC=? WHERE PaymentID=?",entity.getStatus(),entity.getPaymentCost(),entity.getDriverNic(),entity.getPaymentID());
     }
 
     @Override
