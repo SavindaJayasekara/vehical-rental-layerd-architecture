@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.DriverBO;
 import lk.ijse.ikmanRental.dto.DriverDTO;
 import lk.ijse.ikmanRental.dto.DriverPaymentDTO;
 import lk.ijse.ikmanRental.dto.tm.DriverPaymentTM;
@@ -92,6 +94,8 @@ public class DriverFormController {
     @FXML
     private TextField txteditName;
 
+    DriverBO driverBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.DRIVER);
+
     @FXML
     void initialize(){
         FadeTransition fadeIn = new FadeTransition(Duration.millis(2000), contextDriverPane);
@@ -109,7 +113,7 @@ public class DriverFormController {
     private void fillPayment() {
         ObservableList<DriverPaymentTM> paymentTMS=FXCollections.observableArrayList();
         try {
-            List<DriverPaymentDTO> payments= DriverPaymentModel.getAll();
+            List<DriverPaymentDTO> payments= driverBO.getAllDrivePayment();
             for (DriverPaymentDTO payment : payments){
                 paymentTMS.add(new DriverPaymentTM(
                         payment.getPaymentID(),
@@ -128,7 +132,7 @@ public class DriverFormController {
         ObservableList<DriverTM> obList = FXCollections.observableArrayList();
 
         try {
-            List<DriverDTO> drivers=DriverModel.getAll();
+            List<DriverDTO> drivers=driverBO.getAllDrivers();
 
             for (DriverDTO data:drivers){
                 obList.add(new DriverTM(
@@ -148,7 +152,7 @@ public class DriverFormController {
     private void getAllNic() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<String> nic=DriverModel.loadNic();
+            List<String> nic=driverBO.loadDriverNic();
 
             for (String data:nic){
                 obList.add(data);
@@ -184,7 +188,7 @@ public class DriverFormController {
 
         if (txtNic.getText().length()>1){
             try {
-                boolean isSave= DriverModel.save(driver);
+                boolean isSave= driverBO.saveDriver(driver);
                 if (isSave){
                     new Alert(Alert.AlertType.CONFIRMATION,"Driver added !").show();
                 }
@@ -220,7 +224,7 @@ public class DriverFormController {
         String nic = (String) cmbNic.getValue();
 
         try {
-            DriverDTO driver=DriverModel.getAllDrivers(nic);
+            DriverDTO driver=driverBO.getAllDriversFromNIC(nic);
 
             assert driver != null;
             txtEditGmail.setText(driver.getGmail());
@@ -250,7 +254,7 @@ public class DriverFormController {
         );
 
         try {
-            boolean isUpdate=DriverModel.update(driver);
+            boolean isUpdate=driverBO.updateDriver(driver);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Driver Updated !").show();
             }else {
@@ -278,7 +282,7 @@ public class DriverFormController {
 
         if(result.orElse(no)==yes){
             try {
-                boolean isDelete=DriverModel.delete(nicValue);
+                boolean isDelete=driverBO.deleteDriver(nicValue);
                 if (isDelete){
                     new Alert(Alert.AlertType.CONFIRMATION,"Driver Deleted !").show();
                 }else {

@@ -6,6 +6,7 @@ import lk.ijse.ikmanRental.entity.DriverPayment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DriverPaymentDAOImpl implements DriverPaymentDAO{
@@ -27,7 +28,18 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public List<DriverPayment> getAll() throws SQLException {
-        return null;
+        List<DriverPayment> payments=new ArrayList<>();
+        ResultSet resultSet=null;
+            resultSet=SQLUtil.execute("SELECT * FROM payment");
+        while (resultSet.next()){
+            payments.add(new DriverPayment(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getString(4)
+            ));
+        }
+        return payments;
     }
 
     @Override

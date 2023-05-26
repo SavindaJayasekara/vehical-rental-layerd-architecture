@@ -406,20 +406,15 @@ public class BookingFormController {
                 CustomerDTO allCustomer = bookingBO.getAllCustomerDetail(cmbCustomerNic.getValue());
                 String gmail=bookingBO.getDriverGmail(cmbCustomerDriverNic.getValue());
                 sendMail(allCustomer,gmail);
-                    new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
+//                    new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
             }else {
                 new Alert(Alert.AlertType.WARNING,"Something Happened !").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,"Booking SQL Error !").show();
             e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
         init();
         fillTable();
         TabPane tabPane = tabPane1.getTabPane();
