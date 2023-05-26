@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface AdminBO extends SuperBO {
-     boolean save(AdminDTO admin) throws SQLException;
+     boolean save(AdminDTO adminDTO) throws SQLException;
 
      void delete(String nic);
 
-     boolean update(AdminDTO admin) throws SQLException;
+     boolean update(AdminDTO adminDTO) throws SQLException;
 
      AdminDTO getloginDetail(String gmail) throws SQLException;
 

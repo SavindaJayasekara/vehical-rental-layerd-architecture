@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.dto.AdminDTO;
 import lk.ijse.ikmanRental.model.AdminModel;
 import lk.ijse.ikmanRental.util.Detail;
 import lk.ijse.ikmanRental.util.SendText;
@@ -227,7 +228,7 @@ public class LoginFormController {
     public void hypPasswordForgrtOnAction(ActionEvent actionEvent) throws GeneralSecurityException, IOException {
 
         try {
-            Admin admin = AdminModel.getloginDetail(txtGmail.getText());
+            AdminDTO admin = AdminModel.getloginDetail(txtGmail.getText());
 //            System.out.println(admin);
             if (admin.getPassword() ==null){
                 lblGmailCheck.setText("invalid Gmail Address !");

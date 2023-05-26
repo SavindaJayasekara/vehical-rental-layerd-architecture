@@ -6,7 +6,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import lk.ijse.ikmanRental.model.AdminModel;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.AdminBO;
+import lk.ijse.ikmanRental.dto.AdminDTO;
 import lk.ijse.ikmanRental.util.Detail;
 
 import java.sql.SQLException;
@@ -42,6 +44,8 @@ public class AdmineditFormController {
 
     private String gmail;
 
+    private final AdminBO adminBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.ADMIN);
+
     @FXML
     void initialize(){
        setDetail();
@@ -51,7 +55,7 @@ public class AdmineditFormController {
     private void setDetail() {
         gmail= Detail.getGmail();
         try {
-            Admin admin = AdminModel.getloginDetail(gmail);
+            AdminDTO admin = adminBO.getloginDetail(gmail);
             txtFirstName.setText(admin.getFirstName());
             txtLastName.setText(admin.getLastName());
             txtPassword.setText(admin.getPassword());
@@ -65,7 +69,7 @@ public class AdmineditFormController {
 
     @FXML
     public void hypChangeOnAction(ActionEvent actionEvent) {
-        Admin admin = new Admin(
+        AdminDTO adminDTO = new AdminDTO(
                 txtFirstName.getText(),
                 txtLastName.getText(),
                 txtNic.getText(),
@@ -74,7 +78,7 @@ public class AdmineditFormController {
         );
 
         try {
-            boolean isUpdate=AdminModel.update(admin);
+            boolean isUpdate=adminBO.update(adminDTO);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
             }
