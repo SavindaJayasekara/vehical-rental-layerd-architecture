@@ -22,7 +22,7 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM payment WHERE DriverNIC = ?",s);
     }
 
     @Override

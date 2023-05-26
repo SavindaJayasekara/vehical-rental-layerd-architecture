@@ -63,7 +63,8 @@ public class VehicleDAOImpl implements VehicleDAO{
 
     @Override
     public boolean updateAvailabilityDelete(String vehicleNumber) throws SQLException {
-        return false;
+        String availability="AVAILABLE";
+        return SQLUtil.execute("UPDATE vehicle SET Availability=? WHERE VehicleNumber = ?",availability,vehicleNumber);
     }
 
     @Override

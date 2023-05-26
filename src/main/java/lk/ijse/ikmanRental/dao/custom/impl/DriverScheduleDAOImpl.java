@@ -22,7 +22,7 @@ public class DriverScheduleDAOImpl implements DriverScheduleDAO{
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM drivershedeul WHERE BookingID = ?",s);
     }
 
     @Override

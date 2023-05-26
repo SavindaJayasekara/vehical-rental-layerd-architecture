@@ -24,7 +24,7 @@ public class BookingDetailDAOImpl implements BookingDetailDAO {
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM bookingdetail WHERE BookingID = ?",s);
     }
 
     @Override
