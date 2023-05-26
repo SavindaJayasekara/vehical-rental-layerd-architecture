@@ -3,28 +3,26 @@ package lk.ijse.ikmanRental.bo.custom.impl;
 import javafx.scene.control.Alert;
 import lk.ijse.ikmanRental.bo.custom.BookingBO;
 import lk.ijse.ikmanRental.dao.DAOFactory;
-import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.*;
 import lk.ijse.ikmanRental.db.DBConnection;
 import lk.ijse.ikmanRental.dto.*;
 import lk.ijse.ikmanRental.entity.*;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingBOImpl implements BookingBO {
 
-    BookingDAO bookingDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
-    DriverScheduleDAO driverScheduleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERSCHEDULE);
-    BookingDetailDAO detailDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKINGDETAIL);
-    BillDAO billDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BILL);
-    DriverPaymentDAO paymentDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERPAYMENT);
-    DriverDAO driverDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVER);
-    CustomerDAO customerDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
-    VehicleDAO vehicleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
+    private final BookingDAO bookingDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
+    private final DriverScheduleDAO driverScheduleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERSCHEDULE);
+    private final BookingDetailDAO detailDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKINGDETAIL);
+    private final BillDAO billDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BILL);
+    private final DriverPaymentDAO paymentDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERPAYMENT);
+    private final DriverDAO driverDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVER);
+    private final CustomerDAO customerDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private final VehicleDAO vehicleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
 
 
     @Override
@@ -35,8 +33,8 @@ public class BookingBOImpl implements BookingBO {
     @Override
     public List<BookingDTO> getAllBookings() throws SQLException {
         List<BookingDTO>bookingDTOS=new ArrayList<>();
-        List<Booking> allBookigs = bookingDAO.getAll();
-        for (Booking booking : allBookigs){
+        List<Booking> allBookings = bookingDAO.getAll();
+        for (Booking booking : allBookings){
             bookingDTOS.add(new BookingDTO(booking.getBookingID(),booking.getStatus(),booking.getAmountsCost(),booking.getRequiredDate(),booking.getRideTo(),booking.getDistance(),booking.getCustomerNic()));
         }
         return bookingDTOS;
@@ -225,8 +223,7 @@ public class BookingBOImpl implements BookingBO {
                     booking.getRequiredDate(),
                     booking.getRideTo(),
                     booking.getDistance(),
-                    booking.getCustomerNic()
-            )))
+                    booking.getCustomerNic())))
             {
                 connection.setAutoCommit(true);
                 connection.rollback();
@@ -257,8 +254,7 @@ public class BookingBOImpl implements BookingBO {
             }
             if (!driverScheduleDAO.update(new DriverSchedule(
                     driverSchedule.getBookingID(),
-                    driverSchedule.getDriverNic()
-            )))
+                    driverSchedule.getDriverNic())))
             {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -267,8 +263,7 @@ public class BookingBOImpl implements BookingBO {
             if (!detailDAO.update(new BookingDetail(
                     bookingDetail.getBookingId(),
                     bookingDetail.getVehicleNumber(),
-                    bookingDetail.getFuel()
-            )))
+                    bookingDetail.getFuel())))
             {
                 connection.rollback();
                 connection.setAutoCommit(true);
@@ -281,26 +276,65 @@ public class BookingBOImpl implements BookingBO {
 
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            return false;
         }finally {
             connection.rollback();
             connection.setAutoCommit(true);
         }
-        return false;
     }
 
     @Override
     public boolean deleteBooking(String bookingID) throws SQLException {
+
+        DriverSchedule scheduleDTO=driverScheduleDAO.getIdes(bookingID);
+        BookingDetail bookingDetail=detailDAO.getIdes(bookingID);
+
 //        transaction !
         Connection connection=null;
         try {
             connection=DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
-            return false;
+            if (!driverScheduleDAO.delete(bookingID))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!detailDAO.delete(bookingID))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!paymentDAO.delete(scheduleDTO.getDriverNic()))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!bookingDAO.delete(bookingID))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            if (!vehicleDAO.updateAvailabilityDelete(bookingDetail.getVehicleNumber()))
+            {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+            connection.commit();
+            connection.setAutoCommit(true);
+            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            return false;
+        }finally {
+            connection.rollback();
+            connection.setAutoCommit(true);
         }
-        return false;
     }
 
     @Override
