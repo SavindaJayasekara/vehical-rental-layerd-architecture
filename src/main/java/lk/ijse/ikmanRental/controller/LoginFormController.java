@@ -16,8 +16,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.LogInBO;
 import lk.ijse.ikmanRental.dto.AdminDTO;
-import lk.ijse.ikmanRental.model.AdminModel;
 import lk.ijse.ikmanRental.util.Detail;
 import lk.ijse.ikmanRental.util.SendText;
 
@@ -67,6 +68,8 @@ public class LoginFormController {
     private FXMLLoader fxmlLoader;
 
     Timeline timeline;
+
+    LogInBO logInBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.LOGIN);
 
     @FXML
     public void initialize() {
@@ -119,7 +122,7 @@ public class LoginFormController {
     @FXML
     public void btnNextOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         Detail.setGmail(txtGmail.getText());
-        Admin admin= AdminModel.getloginDetail(txtGmail.getText());
+        AdminDTO admin= logInBO.getloginDetail(txtGmail.getText());
 
         try {
             if (admin.getPassword().equals(txtpasswordF.getText())) {
@@ -228,9 +231,9 @@ public class LoginFormController {
     public void hypPasswordForgrtOnAction(ActionEvent actionEvent) throws GeneralSecurityException, IOException {
 
         try {
-            AdminDTO admin = AdminModel.getloginDetail(txtGmail.getText());
+            AdminDTO admin = logInBO.getloginDetail(txtGmail.getText());
 //            System.out.println(admin);
-            if (admin.getPassword() ==null){
+            if (admin.getPassword() == null){
                 lblGmailCheck.setText("invalid Gmail Address !");
             }else {
                 String message="Hi , your password is : "+admin.getPassword();

@@ -44,8 +44,8 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public String getNextBookingID() {
-        return null;
+    public String getNextBookingID() throws SQLException {
+        return bookingDAO.getNextBookingID();
     }
 
     @Override

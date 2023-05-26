@@ -37,12 +37,22 @@ public class BookingDAOImpl implements BookingDAO{
 
     @Override
     public String getNextBookingID() throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT BookingID FROM booking ORDER BY BookingID DESC LIMIT 1");
+        if (resultSet.next()){
+            return splitOrderId(resultSet.getString(1));
+        }
         return null;
     }
 
     @Override
     public String splitOrderId(String currentId) {
-        return null;
+        if(currentId != null) {
+            String[] strings = currentId.split("O0");
+            int id = Integer.parseInt(strings[0]);
+            id++;
+            return "00" + id;
+        }
+        return "001";
     }
 
     @Override

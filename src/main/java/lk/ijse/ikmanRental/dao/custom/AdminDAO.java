@@ -14,7 +14,7 @@ public interface AdminDAO extends CrudDAO<Admin,String> {
 
 //    public static boolean update(Admin admin) throws SQLException ;
 
-//     Admin getloginDetail(String gmail) throws SQLException ;
+     Admin getloginDetail(String gmail) throws SQLException ;
 
      List<String> loadAllIds() throws SQLException ;
 

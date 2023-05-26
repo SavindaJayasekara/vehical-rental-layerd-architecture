@@ -38,6 +38,16 @@ public class AdminDAOImpl implements AdminDAO {
     }
 
     @Override
+    public Admin getloginDetail(String gmail) throws SQLException {
+
+        ResultSet resultSet=SQLUtil.execute("SELECT Gamil,Password,FirsName,LastName,AdminNIC FROM admin WHERE Gamil=?",gmail);
+        if (resultSet.next()){
+            return new Admin(resultSet.getString(1),resultSet.getString(2),resultSet.getString(3),resultSet.getString(4),resultSet.getString(5));
+        }
+        return null;
+    }
+
+    @Override
     public List<String> loadAllIds() throws SQLException {
         List<String> data = new ArrayList<>();
 

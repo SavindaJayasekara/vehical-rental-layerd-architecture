@@ -5,6 +5,10 @@ import javafx.animation.FadeTransition;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.CustomerBO;
+import lk.ijse.ikmanRental.dto.AdminDTO;
+import lk.ijse.ikmanRental.dto.CustomerDTO;
 import lk.ijse.ikmanRental.dto.tm.CustomerTM;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,8 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ikmanRental.model.AdminModel;
-import lk.ijse.ikmanRental.model.CustomerModel;
 import lk.ijse.ikmanRental.util.Detail;
 
 import java.sql.SQLException;
@@ -64,6 +66,8 @@ public class CustomerFormController {
     @FXML
     private TextField txtGmail;
 
+    CustomerBO customerBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.CUSTOMER);
+
     @FXML
     void initialize(){
 
@@ -92,7 +96,7 @@ public class CustomerFormController {
     private void getAllCustomerNic() {
         ObservableList<String> obList = FXCollections.observableArrayList();
         try {
-            List<String> custIds = CustomerModel.getCustomerNic();
+            List<String> custIds = customerBO.getCustomerNic();
             for (String id:custIds) {
                 obList.add(id);
             }
@@ -114,7 +118,7 @@ public class CustomerFormController {
 
     @FXML
     public void btnAddOnActon(ActionEvent actionEvent) {
-        Admin admin = null;
+        AdminDTO admin = null;
         String name=txtName.getText();
         String NIC=txtNic.getText();
         String contact=txtContact.getText();
@@ -133,7 +137,7 @@ public class CustomerFormController {
         }
 
         try {
-            admin = AdminModel.getloginDetail(Detail.getGmail());
+            admin = customerBO.getloginDetailFromAdmin(Detail.getGmail());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -141,11 +145,11 @@ public class CustomerFormController {
 
         boolean isSave=false;
 
-        Customer customer = new Customer(NIC, gmail, contact, name, adminNic);
+        CustomerDTO customer = new CustomerDTO(NIC, gmail, contact, name, adminNic);
 
         if (txtNic.getText().length()>1){
             try {
-                isSave = CustomerModel.save(customer);
+                isSave = customerBO.save(customer);
                 if (isSave) {
                     new Alert(Alert.AlertType.CONFIRMATION, "Customer Added Successful !").show();
                 } else {
@@ -178,7 +182,7 @@ public class CustomerFormController {
             return;
         }
 
-        Customer customer = new Customer();
+        CustomerDTO customer = new CustomerDTO();
         customer.setNic(nic);
         customer.setName(txteditName.getText());
         customer.setGmail(txtEditGmail.getText());
@@ -186,7 +190,7 @@ public class CustomerFormController {
 
 
         try {
-            boolean isUpdate= CustomerModel.update(customer);
+            boolean isUpdate= customerBO.update(customer);
             if (isUpdate){
                 new Alert(Alert.AlertType.CONFIRMATION,"updated !").show();
             }else {
@@ -214,7 +218,7 @@ public class CustomerFormController {
 
         if(result.orElse(no)==yes){
             try {
-                boolean isDeleted=CustomerModel.delete(nic);
+                boolean isDeleted=customerBO.deleteCustomer(nic);
                 if (isDeleted){
                     new Alert(Alert.AlertType.CONFIRMATION,"delete SuccessesFull").show();
                 }else {
@@ -233,7 +237,7 @@ public class CustomerFormController {
         ObservableList<String> obList = FXCollections.observableArrayList();
 
         try {
-            List<String> ids = AdminModel.loadIds();
+            List<String> ids = customerBO.loadAdminIds();
 
             for (String id:ids) {
                 obList.add(id);
@@ -256,9 +260,9 @@ public class CustomerFormController {
 
         ObservableList<CustomerTM> obList = FXCollections.observableArrayList();
         try {
-            List<Customer> cusList = CustomerModel.getAll();
+            List<CustomerDTO> cusList = customerBO.getAllCustomer();
 
-            for (Customer customer : cusList) {
+            for (CustomerDTO customer : cusList) {
                 obList.add(new CustomerTM(
                         customer.getName(),
                         customer.getNic(),
@@ -279,7 +283,7 @@ public class CustomerFormController {
         lblNic.setText("");
         String nic= (String) cmbCustomerNic.getValue();
 
-        Customer customer=CustomerModel.getAllCustomer(nic);
+        CustomerDTO customer=customerBO.getAllCustomerFromId(nic);
 
         try {
             txteditName.setText(customer.getName());
