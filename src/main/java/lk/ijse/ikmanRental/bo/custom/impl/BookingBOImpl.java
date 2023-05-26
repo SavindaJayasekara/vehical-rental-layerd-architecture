@@ -1,12 +1,15 @@
 package lk.ijse.ikmanRental.bo.custom.impl;
 
+import javafx.scene.control.Alert;
 import lk.ijse.ikmanRental.bo.custom.BookingBO;
 import lk.ijse.ikmanRental.dao.DAOFactory;
 import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.*;
+import lk.ijse.ikmanRental.db.DBConnection;
 import lk.ijse.ikmanRental.dto.*;
 import lk.ijse.ikmanRental.entity.*;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -76,8 +79,85 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public boolean saveBooking(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException {
-//        transaction
-        return false;
+//        transaction save
+        Connection connection=null;
+        try {
+            connection=DBConnection.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+            if (!bookingDAO.save(new Booking(
+                    booking.getBookingID(),
+                    booking.getStatus(),
+                    booking.getAmountsCost(),
+                    booking.getRequiredDate(),
+                    booking.getRideTo(),
+                    booking.getDistance(),
+                    booking.getCustomerNic()
+            ))){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            if (!billDAO.save(new Bill(
+                    bill.getBillID(),
+                    bill.getBookingID(),
+                    bill.getCustomerNIC(),
+                    bill.getDriverNic(),
+                    bill.getCost(),
+                    bill.getVehicleNumber(),
+                    bill.getCurrentDate()
+            ))){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            if (!paymentDAO.save(new DriverPayment(driverPay.getPaymentID(),
+                    driverPay.getStatus(),
+                    driverPay.getPaymentCost(),
+                    driverPay.getDriverNic()
+
+            ))){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            if (!vehicleDAO.updateAvailability(bookingDetail.getVehicleNumber())){
+                connection.setAutoCommit(true);
+                connection.rollback();
+                return false;
+            }
+
+            if (!driverScheduleDAO.save(new DriverSchedule(
+                    driverSchedule.getBookingID(),
+                    driverSchedule.getDriverNic()
+            ))){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            if (!detailDAO.save(new BookingDetail(
+                    bookingDetail.getBookingId(),
+                    bookingDetail.getVehicleNumber(),
+                    bookingDetail.getFuel()
+            ))){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                return false;
+            }
+
+            connection.commit();
+            return true;
+
+        } catch (SQLException e) {
+            connection.rollback();
+            connection.setAutoCommit(true);
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            return false;
+        }
     }
 
     @Override
@@ -133,7 +213,15 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public boolean update(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException {
-//        transaction
+//        transaction update
+        Connection connection=null;
+
+        try {
+            connection= DBConnection.getInstance().getConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
