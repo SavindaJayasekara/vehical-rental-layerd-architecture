@@ -1,8 +1,10 @@
 package lk.ijse.ikmanRental.dao.custom.impl;
 
+import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.DriverScheduleDAO;
 import lk.ijse.ikmanRental.entity.DriverSchedule;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class DriverScheduleDAOImpl implements DriverScheduleDAO{
 
     @Override
     public String getDriverNic(String bookingId) throws SQLException {
+        ResultSet resultSet= SQLUtil.execute("SELECT DriverNIC FROM drivershedeul WHERE BookingID =?",bookingId);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 

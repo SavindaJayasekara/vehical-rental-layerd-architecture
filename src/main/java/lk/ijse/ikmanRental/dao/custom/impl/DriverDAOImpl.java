@@ -1,9 +1,12 @@
 package lk.ijse.ikmanRental.dao.custom.impl;
 
+import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.DriverDAO;
 import lk.ijse.ikmanRental.entity.Driver;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DriverDAOImpl  implements DriverDAO{
@@ -34,7 +37,13 @@ public class DriverDAOImpl  implements DriverDAO{
 
     @Override
     public List<String> loadNic() throws SQLException {
-        return null;
+        List<String> nic=new ArrayList<>();
+        ResultSet resultSet = null;
+        resultSet= SQLUtil.execute("SELECT DriverNIC FROM driver");
+        while (resultSet.next()){
+            nic.add(resultSet.getString(1));
+        }
+        return nic;
     }
 
     @Override

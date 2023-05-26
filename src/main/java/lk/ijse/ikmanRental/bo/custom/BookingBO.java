@@ -12,9 +12,9 @@ public interface BookingBO extends SuperBO {
 
     List<BookingDTO> getAllBookings()throws SQLException;
 
-    String getDriverNICFromDriverSchedul(String bookingID);
+    String getDriverNICFromDriverSchedul(String bookingID) throws SQLException;
 
-    String getVehicleNumberFromBookingDetail(String bookingID);
+    String getVehicleNumberFromBookingDetail(String bookingID) throws SQLException;
 
     String getNextBillIdFromBill()throws SQLException;
 
@@ -28,11 +28,11 @@ public interface BookingBO extends SuperBO {
 
     boolean saveBooking(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException;
 
-    CustomerDTO getAllCustomerDetail(String customerNic);
+    CustomerDTO getAllCustomerDetail(String customerNic) throws SQLException;
 
-    String getDriverGmail(String driverNic);
+    String getDriverGmail(String driverNic) throws SQLException;
 
-    VehicleDTO getFuelToKmFromVehicle(String vehicleNumber);
+    VehicleDTO getFuelToKmFromVehicle(String vehicleNumber) throws SQLException;
 
     Double getStatusFromDriver(String driverNic)throws SQLException;
 

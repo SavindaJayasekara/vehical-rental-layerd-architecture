@@ -17,17 +17,35 @@ public class BookingDAOImpl implements BookingDAO{
 
     @Override
     public boolean update(Booking entity) throws SQLException {
-        return false;
+        return SQLUtil.execute("UPDATE booking SET Status=?, AmmountCost=? ,RequriedDate=? ,RideTO=? ,Distance=? ,CustomerNIC=? WHERE BookingID=?",entity.getStatus(),entity.getAmountsCost(),entity.getRequiredDate(),entity.getRideTo(),entity.getDistance(),entity.getCustomerNic(),entity.getBookingID());
     }
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM booking WHERE BookingID = ?",s);
     }
 
     @Override
     public List<Booking> getAll() throws SQLException {
-        return null;
+        List<Booking> bookings=new ArrayList<>();
+        ResultSet resultSet = null;
+        try {
+            resultSet = SQLUtil.execute("SELECT * FROM booking");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while (resultSet.next()){
+            bookings.add(new Booking(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getDate(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7)
+            ));
+        }
+        return bookings;
     }
 
     @Override

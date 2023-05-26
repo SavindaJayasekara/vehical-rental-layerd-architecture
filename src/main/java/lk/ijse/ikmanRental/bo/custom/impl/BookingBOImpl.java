@@ -2,15 +2,28 @@ package lk.ijse.ikmanRental.bo.custom.impl;
 
 import lk.ijse.ikmanRental.bo.custom.BookingBO;
 import lk.ijse.ikmanRental.dao.DAOFactory;
-import lk.ijse.ikmanRental.dao.custom.BookingDAO;
+import lk.ijse.ikmanRental.dao.SQLUtil;
+import lk.ijse.ikmanRental.dao.custom.*;
 import lk.ijse.ikmanRental.dto.*;
+import lk.ijse.ikmanRental.entity.Booking;
+import lk.ijse.ikmanRental.entity.Customer;
+import lk.ijse.ikmanRental.entity.Vehicle;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookingBOImpl implements BookingBO {
 
     BookingDAO bookingDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
+    DriverScheduleDAO driverScheduleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERSCHEDULE);
+    BookingDetailDAO detailDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKINGDETAIL);
+    BillDAO billDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BILL);
+    DriverPaymentDAO paymentDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERPAYMENT);
+    DriverDAO driverDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVER);
+    CustomerDAO customerDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    VehicleDAO vehicleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
 
 
     @Override
@@ -20,27 +33,32 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public List<BookingDTO> getAllBookings() throws SQLException {
-        return null;
+        List<BookingDTO>bookingDTOS=new ArrayList<>();
+        List<Booking> allBookigs = bookingDAO.getAll();
+        for (Booking booking : allBookigs){
+            bookingDTOS.add(new BookingDTO(booking.getBookingID(),booking.getStatus(),booking.getAmountsCost(),booking.getRequiredDate(),booking.getRideTo(),booking.getDistance(),booking.getCustomerNic()));
+        }
+        return bookingDTOS;
     }
 
     @Override
-    public String getDriverNICFromDriverSchedul(String bookingID) {
-        return null;
+    public String getDriverNICFromDriverSchedul(String bookingID) throws SQLException {
+        return driverScheduleDAO.getDriverNic(bookingID);
     }
 
     @Override
-    public String getVehicleNumberFromBookingDetail(String bookingID) {
-        return null;
+    public String getVehicleNumberFromBookingDetail(String bookingID) throws SQLException {
+        return detailDAO.getVehicleNumber(bookingID);
     }
 
     @Override
-    public String getNextBillIdFromBill() {
-        return null;
+    public String getNextBillIdFromBill() throws SQLException {
+        return billDAO.getNextID();
     }
 
     @Override
-    public String getNextIdFromDriverPayment() {
-        return null;
+    public String getNextIdFromDriverPayment() throws SQLException {
+        return paymentDAO.getnextID();
     }
 
     @Override
@@ -49,13 +67,13 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public List<String> loadDriverNICFromDriver() {
-        return null;
+    public List<String> loadDriverNICFromDriver() throws SQLException {
+        return driverDAO.loadNic();
     }
 
     @Override
-    public List<String> getAllCustomerNICFromCustomer() {
-        return null;
+    public List<String> getAllCustomerNICFromCustomer() throws SQLException {
+        return customerDAO.getCustomerNic();
     }
 
     @Override
@@ -64,18 +82,24 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public CustomerDTO getAllCustomerDetail(String customerNic) {
+    public CustomerDTO getAllCustomerDetail(String customerNic) throws SQLException {
+        Customer customer = customerDAO.getIdes(customerNic);
+        return new CustomerDTO(customer.getNic(),customer.getGmail(),customer.getContact(),customer.getName(),customer.getAdminNic());
+    }
+
+    @Override
+    public String getDriverGmail(String driverNic) throws SQLException {
+        ResultSet resultSet= SQLUtil.execute("SELECT Gamil FROM driver WHERE DriverNIC=?",driverNic);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 
     @Override
-    public String getDriverGmail(String driverNic) {
-        return null;
-    }
-
-    @Override
-    public VehicleDTO getFuelToKmFromVehicle(String vehicleNumber) {
-        return null;
+    public VehicleDTO getFuelToKmFromVehicle(String vehicleNumber) throws SQLException {
+        Vehicle vehicle = vehicleDAO.getFuelToKm(vehicleNumber);
+        return new VehicleDTO(vehicle.getVehicleNumber(),vehicle.getName(),vehicle.getType(),vehicle.getFuelToKm(),vehicle.getKmh(),vehicle.getAvailability(),vehicle.getStatus(),vehicle.getCondition());
     }
 
     @Override
@@ -114,8 +138,8 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public boolean deleteBooking(String bookingID) {
-        return false;
+    public boolean deleteBooking(String bookingID) throws SQLException {
+        return bookingDAO.deleteBooking(bookingID);
     }
 
     @Override

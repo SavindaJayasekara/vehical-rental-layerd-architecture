@@ -403,15 +403,21 @@ public class BookingFormController {
             isBooked=bookingBO.saveBooking(booking,bill,driverPay,driverSchedule,bookingDetail);
             if (isBooked){
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
-//                Customer allCustomer = CustomerModel.getAllCustomer(cmbCustomerNic.getValue());
-//                String gmail=DriverModel.getGmail(cmbCustomerDriverNic.getValue());
-//                sendMail(allCustomer,gmail);
-//                    new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
+                CustomerDTO allCustomer = bookingBO.getAllCustomerDetail(cmbCustomerNic.getValue());
+                String gmail=bookingBO.getDriverGmail(cmbCustomerDriverNic.getValue());
+                sendMail(allCustomer,gmail);
+                    new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
             }else {
                 new Alert(Alert.AlertType.WARNING,"Something Happened !").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,"Booking SQL Error !").show();
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         init();

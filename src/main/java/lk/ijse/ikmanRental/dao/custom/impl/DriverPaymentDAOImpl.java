@@ -1,8 +1,10 @@
 package lk.ijse.ikmanRental.dao.custom.impl;
 
+import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.DriverPaymentDAO;
 import lk.ijse.ikmanRental.entity.DriverPayment;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,12 +36,22 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public String getnextID() throws SQLException {
-        return null;
+        ResultSet resultSet= SQLUtil.execute("SELECT PaymentID FROM payment ORDER BY PaymentID DESC LIMIT 1");
+        if (resultSet.next()){
+            return splitOrderId(resultSet.getString(1));
+        }
+        return splitOrderId(null);
     }
 
     @Override
     public String splitOrderId(String currentId) {
-        return null;
+        if(currentId != null) {
+            String[] strings = currentId.split("O0");
+            int id = Integer.parseInt(strings[0]);
+            id++;
+            return "00" + id;
+        }
+        return "00";
     }
 
     @Override
