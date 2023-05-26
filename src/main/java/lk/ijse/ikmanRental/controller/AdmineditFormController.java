@@ -7,6 +7,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import lk.ijse.ikmanRental.model.AdminModel;
+import lk.ijse.ikmanRental.util.Detail;
 
 import java.sql.SQLException;
 
@@ -48,7 +49,7 @@ public class AdmineditFormController {
     }
 
     private void setDetail() {
-        gmail=Detail.getGmail();
+        gmail= Detail.getGmail();
         try {
             Admin admin = AdminModel.getloginDetail(gmail);
             txtFirstName.setText(admin.getFirstName());

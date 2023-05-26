@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.util.SendText;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

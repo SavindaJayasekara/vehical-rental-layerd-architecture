@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.ikmanRental.model.AdminModel;
+import lk.ijse.ikmanRental.util.SendText;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

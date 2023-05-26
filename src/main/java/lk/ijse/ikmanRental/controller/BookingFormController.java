@@ -26,6 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.util.SendText;
 
 import javax.mail.MessagingException;
 import java.awt.*;

@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.ikmanRental.model.AdminModel;
 import lk.ijse.ikmanRental.model.CustomerModel;
+import lk.ijse.ikmanRental.util.Detail;
 
 import java.sql.SQLException;
 import java.util.List;
