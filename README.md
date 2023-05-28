@@ -1,5 +1,4 @@
-# vehical-rental-MVC-architecture
-1 st semester final project
+# vehical-rental-layered-architecture
 
 using # java
       # css
