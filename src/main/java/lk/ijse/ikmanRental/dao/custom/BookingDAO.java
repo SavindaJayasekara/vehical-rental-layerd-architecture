@@ -38,7 +38,7 @@ public interface BookingDAO extends CrudDAO<Booking,String> {
 
     Double getDistance(String id) throws SQLException ;
 
-    boolean updateVehicleOut(String id) throws SQLException ;
+    boolean updateVehicleOutFromBooking(String id) throws SQLException ;
 
     int count() throws SQLException ;
 

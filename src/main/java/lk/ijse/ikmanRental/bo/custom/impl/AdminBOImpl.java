@@ -5,6 +5,7 @@ import lk.ijse.ikmanRental.bo.custom.AdminBO;
 import lk.ijse.ikmanRental.dao.DAOFactory;
 import lk.ijse.ikmanRental.dao.custom.AdminDAO;
 import lk.ijse.ikmanRental.dto.AdminDTO;
+import lk.ijse.ikmanRental.entity.Admin;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -30,11 +31,17 @@ public class AdminBOImpl implements AdminBO {
 
     @Override
     public AdminDTO getloginDetail(String gmail) throws SQLException {
-        return null;
+        Admin admin = adminDAO.getIdes(gmail);
+        return new AdminDTO(admin.getNIC(),admin.getFirstName(),admin.getLastName(),admin.getGmail(),admin.getPassword());
     }
 
     @Override
     public List<String> loadIds() throws SQLException {
         return adminDAO.loadAllIds();
+    }
+
+    @Override
+    public boolean saveAdmin(AdminDTO admin) throws SQLException {
+        return adminDAO.save(new Admin(admin.getNIC(),admin.getFirstName(),admin.getLastName(),admin.getGmail(),admin.getPassword()));
     }
 }

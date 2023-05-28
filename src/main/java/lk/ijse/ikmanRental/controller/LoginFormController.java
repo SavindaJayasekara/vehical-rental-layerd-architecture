@@ -123,11 +123,11 @@ public class LoginFormController {
     public void btnNextOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         Detail.setGmail(txtGmail.getText());
         AdminDTO admin= logInBO.getloginDetail(txtGmail.getText());
+        System.out.println(admin.toString());
 
         try {
-            if (admin.getPassword().equals(txtpasswordF.getText())) {
+            if (admin.getNIC().equals(txtpasswordF.getText())) {
                 setUi("dashBord_form.fxml");
-                //new Alert(Alert.AlertType.CONFIRMATION, "Log In Successful :)").show();
             } else {
                 txtGmail.setStyle("-fx-border-color: red");
                 txtpasswordF.setStyle("-fx-border-color: red");

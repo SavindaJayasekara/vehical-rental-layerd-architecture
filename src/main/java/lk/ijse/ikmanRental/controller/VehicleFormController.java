@@ -3,6 +3,9 @@ package lk.ijse.ikmanRental.controller;
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.VehicleBO;
+import lk.ijse.ikmanRental.dto.VehicleDTO;
 import lk.ijse.ikmanRental.dto.tm.VehicleTM;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.ikmanRental.model.VehicleModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -106,6 +108,8 @@ public class VehicleFormController {
     @FXML
     private TextField txtVehicleNumber;
 
+    private final VehicleBO vehicleBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.VEHICLE);
+
     @FXML
     void initialize(){
         FadeTransition fadeIn = new FadeTransition(Duration.millis(2000), contextVehiclePane);
@@ -125,7 +129,7 @@ public class VehicleFormController {
         ObservableList<String> vehiclenumbers =FXCollections.observableArrayList();
 
         try {
-            List<String> numbers= VehicleModel.loadNumbers();
+            List<String> numbers= vehicleBO.loadVehicleNumbers();
             vehiclenumbers.addAll(numbers);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -148,8 +152,8 @@ public class VehicleFormController {
         ObservableList<VehicleTM> obList = FXCollections.observableArrayList();
 
         try {
-            List<Vehicle> vehicles=VehicleModel.getAll();
-            for (Vehicle vehicle : vehicles){
+            List<VehicleDTO> vehicles=vehicleBO.getAll();
+            for (VehicleDTO vehicle : vehicles){
                 obList.add(new VehicleTM(
                         vehicle.getVehicleNumber(),
                         vehicle.getName(),
@@ -230,10 +234,10 @@ public class VehicleFormController {
         String availability = cmbAvailability.getValue();
         double fuelToKm = Double.parseDouble(txtFuelToKm.getText());
 
-        Vehicle vehicle = new Vehicle(number, name, type, fuelToKm, kmh, availability, status, condition);
+        VehicleDTO vehicle = new VehicleDTO(number, name, type, fuelToKm, kmh, availability, status, condition);
 
         try {
-            boolean isSave= VehicleModel.save(vehicle);
+            boolean isSave= vehicleBO.saveVehicle(vehicle);
             if (isSave){
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
             }else {
@@ -258,7 +262,7 @@ public class VehicleFormController {
 
         if(result.orElse(no)==yes){
             try {
-                boolean isDelete=VehicleModel.delete(number);
+                boolean isDelete=vehicleBO.deleteVehicle(number);
                 if (isDelete){
                     new Alert(Alert.AlertType.CONFIRMATION,"deleted !").show();
                 }else {
@@ -298,7 +302,7 @@ public class VehicleFormController {
         String condition = cmbEditCondition.getValue();
 
         try {
-            boolean isUpdate=VehicleModel.update(new Vehicle(
+            boolean isUpdate=vehicleBO.updateVehicle(new VehicleDTO(
                     number,
                     name,
                     type,
@@ -324,7 +328,7 @@ public class VehicleFormController {
     void cmbVehicleOnAction(ActionEvent event) throws SQLException {
         String number = (String) cmbVehicleNumber.getValue();
 
-            Vehicle vehicle=VehicleModel.getAll(number);
+            VehicleDTO vehicle=vehicleBO.getAllVehicle(number);
 
         assert vehicle != null;
         try {

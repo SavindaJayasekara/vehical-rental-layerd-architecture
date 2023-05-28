@@ -25,7 +25,7 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM billing WHERE BookingID = ?",s);
     }
 
     @Override

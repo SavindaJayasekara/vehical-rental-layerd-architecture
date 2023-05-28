@@ -156,7 +156,6 @@ public class BookingBOImpl implements BookingBO {
             return false;
         }finally {
             connection.setAutoCommit(true);
-            connection.rollback();
         }
     }
 
@@ -278,7 +277,6 @@ public class BookingBOImpl implements BookingBO {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             return false;
         }finally {
-            connection.rollback();
             connection.setAutoCommit(true);
         }
     }
@@ -332,7 +330,6 @@ public class BookingBOImpl implements BookingBO {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             return false;
         }finally {
-            connection.rollback();
             connection.setAutoCommit(true);
         }
     }

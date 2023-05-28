@@ -4,8 +4,10 @@ import lk.ijse.ikmanRental.dao.SQLUtil;
 import lk.ijse.ikmanRental.dao.custom.BookingDAO;
 import lk.ijse.ikmanRental.entity.*;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +33,7 @@ public class BookingDAOImpl implements BookingDAO{
     @Override
     public List<Booking> getAll() throws SQLException {
         List<Booking> bookings=new ArrayList<>();
-        ResultSet resultSet = null;
-        try {
-            resultSet = SQLUtil.execute("SELECT * FROM booking");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM booking");
         while (resultSet.next()){
             bookings.add(new Booking(
                     resultSet.getString(1),
@@ -53,6 +50,18 @@ public class BookingDAOImpl implements BookingDAO{
 
     @Override
     public Booking getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM booking WHERE BookingID = ?",s);
+        if (resultSet.next()){
+            return new Booking(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDouble(3),
+                    resultSet.getDate(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6),
+                    resultSet.getString(7)
+            );
+        }
         return null;
     }
 
@@ -93,41 +102,64 @@ public class BookingDAOImpl implements BookingDAO{
 
     @Override
     public boolean deleteBooking(String id) throws SQLException {
-        return false;
+        return SQLUtil.execute("DELETE FROM booking WHERE BookingID = ?",id);
     }
 
     @Override
     public List<String> getRunningIds() throws SQLException {
-        return null;
+        List<String> bookings=new ArrayList<>();
+        ResultSet resultSet=SQLUtil.execute("SELECT BookingID FROM booking WHERE Status='RUNNING'");
+        while (resultSet.next()){
+            bookings.add(resultSet.getString(1));
+        }
+        return bookings;
     }
 
     @Override
     public boolean setStatus(String id) throws SQLException {
-        return false;
+        return SQLUtil.execute("UPDATE booking SET Status='FINISHED' WHERE BookingID=?",id);
     }
 
     @Override
     public List<String> getPendinngIds() throws SQLException {
-        return null;
+        List<String> bookings=new ArrayList<>();
+        ResultSet resultSet =SQLUtil.execute("SELECT BookingID FROM booking WHERE Status='PENDING'");
+        while (resultSet.next()){
+            bookings.add(resultSet.getString(1));
+        }
+        return bookings;
     }
 
     @Override
     public Double getDistance(String id) throws SQLException {
-        return null;
+        ResultSet resultSet=SQLUtil.execute("SELECT Distance FROM booking WHERE BookingID = ?",id);
+        if (resultSet.next()){
+            return resultSet.getDouble(1);
+        }
+        return 0.0;
     }
 
     @Override
-    public boolean updateVehicleOut(String id) throws SQLException {
-        return false;
+    public boolean updateVehicleOutFromBooking(String id) throws SQLException {
+        return SQLUtil.execute("UPDATE booking SET Status='RUNNING' WHERE BookingID=?",id);
     }
 
     @Override
     public int count() throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT count(*) from booking;");
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        }
         return 0;
     }
 
     @Override
     public int countRides() throws SQLException {
+        Date now = Date.valueOf(LocalDate.now());
+        ResultSet resultSet=SQLUtil.execute("SELECT count(*) from booking WHERE RequriedDate=?",now);
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        }
         return 0;
     }
 }

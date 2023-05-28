@@ -451,6 +451,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="lk.ijse.ikmanRental.Test" />
+      <module name="ikmanrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="lk.ijse.ikmanRental.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -465,6 +478,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.SendText" />
       </list>
     </recent_temporary>
@@ -507,6 +521,8 @@
       <workItem from="1685081262658" duration="1056000" />
       <workItem from="1685082578395" duration="243000" />
       <workItem from="1685083460875" duration="22174000" />
+      <workItem from="1685120678617" duration="1058000" />
+      <workItem from="1685186426649" duration="9188000" />
     </task>
     <servers />
   </component>

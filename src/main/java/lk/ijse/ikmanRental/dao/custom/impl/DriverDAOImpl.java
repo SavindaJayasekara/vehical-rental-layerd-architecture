@@ -48,6 +48,15 @@ public class DriverDAOImpl  implements DriverDAO{
 
     @Override
     public Driver getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT * FROM driver WHERE DriverNIC = ?",s);
+        if (resultSet.next()){
+            return new Driver(resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            );
+        }
         return null;
     }
 
@@ -91,6 +100,10 @@ public class DriverDAOImpl  implements DriverDAO{
 
     @Override
     public int count() throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT count(*) from driver;");
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        }
         return 0;
     }
 

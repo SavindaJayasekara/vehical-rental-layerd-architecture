@@ -52,11 +52,11 @@ public class BookingDetailDAOImpl implements BookingDetailDAO {
 
     @Override
     public String getVehicleNUmberInRunning(String id) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT VehicleNumber FROM bookingdetail WHERE BookingID=?",id);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 
-    @Override
-    public boolean setStatus(String id) throws SQLException {
-        return false;
-    }
-}
+   }

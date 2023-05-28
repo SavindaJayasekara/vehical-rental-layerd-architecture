@@ -18,5 +18,4 @@ public interface BookingDetailDAO extends CrudDAO<BookingDetail,String> {
 
      String getVehicleNUmberInRunning(String id) throws SQLException ;
 
-     boolean setStatus(String id) throws SQLException ;
 }

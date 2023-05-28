@@ -82,6 +82,6 @@ public class DriverPaymentDAOImpl implements DriverPaymentDAO{
 
     @Override
     public boolean updatePayment(String driverNic) throws SQLException {
-        return false;
+        return SQLUtil.execute("SELECT PaymentID FROM payment WHERE DriverNIC=?",driverNic);
     }
 }

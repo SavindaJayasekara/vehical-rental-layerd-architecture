@@ -16,4 +16,6 @@ public interface AdminBO extends SuperBO {
      AdminDTO getloginDetail(String gmail) throws SQLException;
 
      List<String> loadIds() throws SQLException;
+
+    boolean saveAdmin(AdminDTO admin)throws SQLException;
 }

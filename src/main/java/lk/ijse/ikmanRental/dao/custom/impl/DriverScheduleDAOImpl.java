@@ -50,6 +50,10 @@ public class DriverScheduleDAOImpl implements DriverScheduleDAO{
 
     @Override
     public String getDriverNicInRunning(String id) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT DriverNIC FROM drivershedeul WHERE BookingID=?",id);
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }
         return null;
     }
 }

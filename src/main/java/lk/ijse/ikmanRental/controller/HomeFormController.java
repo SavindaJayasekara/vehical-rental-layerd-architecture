@@ -2,7 +2,11 @@ package lk.ijse.ikmanRental.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.HomeBO;
 import lk.ijse.ikmanRental.db.DBConnection;
+import lk.ijse.ikmanRental.dto.VehicleInDTO;
+import lk.ijse.ikmanRental.dto.VehicleOutDTO;
 import lk.ijse.ikmanRental.dto.tm.VehicleInTM;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
@@ -26,7 +30,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import lk.ijse.ikmanRental.model.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -132,6 +135,8 @@ public class HomeFormController {
     @FXML
     private TableColumn colDriverNic;
 
+    private final HomeBO homeBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.HOME);
+
 
     @FXML
     void initialize (){
@@ -181,8 +186,8 @@ public class HomeFormController {
         ObservableList<VehicleInTM> vehicleInTMS=FXCollections.observableArrayList();
 
         try {
-            List<VehicleIn> inList= VehicleInModel.getAll();
-            for (VehicleIn in : inList){
+            List<VehicleInDTO> inList= homeBO.getAllVehicleIn();
+            for (VehicleInDTO in : inList){
                 vehicleInTMS.add(new VehicleInTM(
                         in.getVehicleNumber(),
                         in.getDriverNic(),
@@ -199,15 +204,15 @@ public class HomeFormController {
 
     private void countResult() {
         try {
-            int count= CustomerModel.countCustomer();
+            int count= homeBO.countCustomer();
             lblRegisterCustomer.setText(String.valueOf(count));
-            int countVehicle= VehicleModel.count();
+            int countVehicle= homeBO.countVehicle();
             lblAVehicle.setText(String.valueOf(countVehicle));
-            int countBooking= BookingModel.count();
+            int countBooking= homeBO.countBookings();
             lblBooking.setText(String.valueOf(countBooking));
-            int countDrivers= DriverModel.count();
+            int countDrivers= homeBO.countDriver();
             lblDrivers.setText(String.valueOf(countDrivers));
-            int countToday=BookingModel.countRides();
+            int countToday=homeBO.countRidesFromBooking();
             lblRides.setText(String.valueOf(countToday));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,10 +221,9 @@ public class HomeFormController {
 
     private void setbookinidInPendinng() {
         ObservableList<String> bookingIds= FXCollections.observableArrayList();
-        List<String> validIds=new ArrayList<>();
 
         try {
-            validIds=BookingModel.getPendinngIds();
+            List<String> validIds=homeBO.getPendinngIdsFromBooking();
             for (String ids : validIds){
                 bookingIds.add(ids);
             }
@@ -237,10 +241,10 @@ public class HomeFormController {
 
     private void setBookingIDs() {
         ObservableList<String> bookingIds= FXCollections.observableArrayList();
-        List<String> validIds=new ArrayList<>();
+
 
         try {
-            validIds= BookingModel.getRunningIds();
+            List<String> validIds= homeBO.getRunningIdsFromBooking();
             for (String ids : validIds){
                 bookingIds.add(ids);
             }
@@ -325,8 +329,8 @@ public class HomeFormController {
         String id = (String) cmbBookingID.getValue();
 
         try {
-            String vehicleId= BookingDetailModel.getVehicleNUmberInRunning(id);
-            String driverId= DriverScheduleModel.getDriverNicInRunning(id);
+            String vehicleId= homeBO.getVehicleNUmberInRunning(id);
+            String driverId= homeBO.getDriverNicInRunning(id);
             lblDriverId.setText(driverId);
             lblVehicleNUmber.setText(vehicleId);
         } catch (SQLException e) {
@@ -337,7 +341,7 @@ public class HomeFormController {
     @FXML
     public void btnAddOnAction(ActionEvent actionEvent) throws SQLException {
         String id = (String) cmbBookingID.getValue();
-        if (id==null){
+        if (id == null) {
             lblIn.setText("Choose ID !");
             return;
         }
@@ -347,31 +351,24 @@ public class HomeFormController {
 
         java.sql.Date date = new java.sql.Date(currentDate.getTime());
 
-        VehicleIn vehicleIn = new VehicleIn(lblVehicleNUmber.getText(),lblDriverId.getText(),date,id);
+        VehicleInDTO vehicleIn = new VehicleInDTO(lblVehicleNUmber.getText(), lblDriverId.getText(), date, id);
 
-        Connection connection=null;
-
+        Connection connection = null;
         try {
-            connection= DBConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
 
-            boolean isSave= VehicleInModel.save(vehicleIn);
-            boolean isUpdate=BookingModel.setStatus(id);
-            boolean isUpdateVehicle=VehicleModel.updateAvailabilityRunning(lblVehicleNUmber.getText(),"AVAILABLE");
-            boolean isUpdatePayment=DriverPaymentModel.updatePayment(lblDriverId.getText());
+            boolean isSave = homeBO.saveVehicleIn(vehicleIn, id, lblVehicleNUmber.getText(), "AVAILABLE", lblDriverId.getText());
 
-            if (isSave && isUpdate && isUpdateVehicle && isUpdatePayment){
+            if (isSave) {
                 connection.commit();
-                new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
-            }else {
-                new Alert(Alert.AlertType.WARNING,"Something Happened !").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Success !").show();
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Something Happened !").show();
             }
 
         } catch (SQLException e) {
             connection.rollback();
-            new Alert(Alert.AlertType.ERROR,"SQL Error !").show();
-        }finally {
-            connection.setAutoCommit(true);
+            new Alert(Alert.AlertType.ERROR, "SQL Error !").show();
+
         }
     }
 
@@ -381,9 +378,9 @@ public class HomeFormController {
         String id = (String) cmbBookingId2.getValue();
 
         try {
-            String vehicleId= BookingDetailModel.getVehicleNUmberInRunning(id);
-            String driverId= DriverScheduleModel.getDriverNicInRunning(id);
-            Double distance=BookingModel.getDistance(id);
+            String vehicleId= homeBO.getVehicleNUmberInRunning(id);
+            String driverId= homeBO.getDriverNicInRunning(id);
+            Double distance=homeBO.getDistanceFromBooking(id);
             lblDriverId2.setText(driverId);
             lblVehicleNum2.setText(vehicleId);
             lblDistance.setText(String.valueOf(distance));
@@ -401,25 +398,17 @@ public class HomeFormController {
         }
         Connection connection=null;
         try {
-            connection= DBConnection.getInstance().getConnection();
-            connection.setAutoCommit(false);
+            VehicleOutDTO vehicle=new VehicleOutDTO(lblVehicleNum2.getText(),lblDriverId2.getText(),homeBO.getDistanceFromBooking(id),id);
+            boolean isSave=homeBO.saveVehicleOut(vehicle,id,lblVehicleNum2.getText(),"RUNNING");
 
-            VehicleOut vehicle=new VehicleOut(lblVehicleNum2.getText(),lblDriverId2.getText(),BookingModel.getDistance(id),id);
-            boolean isSave= VehicleOutModel.save(vehicle);
-            boolean isUpdate=BookingModel.updateVehicleOut(id);
-            boolean isUpdateVehicle=VehicleModel.updateAvailabilityRunning(lblVehicleNum2.getText(),"RUNNING");
-
-            if (isSave && isUpdate && isUpdateVehicle){
+            if (isSave){
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
                 connection.commit();
             }else {
                 new Alert(Alert.AlertType.WARNING,"Something Happened !").show();
             }
         } catch (SQLException e) {
-            connection.rollback();
             new Alert(Alert.AlertType.ERROR,"SQL Error !").show();
-        }finally {
-            connection.setAutoCommit(true);
         }
     }
 

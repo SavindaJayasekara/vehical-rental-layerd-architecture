@@ -86,6 +86,10 @@ public class CustomerDAOImpl  implements CustomerDAO{
 
     @Override
     public int countCustomer() throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT count(*) from customer;");
+        if (resultSet.next()){
+            return resultSet.getInt(1);
+        }
         return 0;
     }
 }

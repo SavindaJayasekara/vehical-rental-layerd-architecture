@@ -17,7 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import lk.ijse.ikmanRental.model.AdminModel;
+import lk.ijse.ikmanRental.bo.BOFactory;
+import lk.ijse.ikmanRental.bo.custom.AdminBO;
+import lk.ijse.ikmanRental.dto.AdminDTO;
 import lk.ijse.ikmanRental.util.SendText;
 
 import javax.mail.MessagingException;
@@ -40,6 +42,8 @@ public class OtpverifyFormController {
     private String Gmail;
     private String password;
     private String otp;
+
+    AdminBO adminBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.ADMIN);
 
     @FXML
     void initialize(){
@@ -89,27 +93,27 @@ public class OtpverifyFormController {
 
     @FXML
     public void btnContinueOnAction(ActionEvent actionEvent) throws IOException {
-        Admin admin = new Admin(Fname,Lname,NIC,password,Gmail);
+        AdminDTO admin = new AdminDTO(Fname,Lname,NIC,password,Gmail);
 
         if(txtOtp.getText().equals(otp)){
             try {
-                boolean result= AdminModel.save(admin);
+                boolean result= adminBO.saveAdmin(admin);
                 if(result){
-//                    System.exit(0);
-                    setUi("Login_form.fxml");
-                    new Alert(Alert.AlertType.CONFIRMATION,"Accunt Created :)").show();
-                    Stage satge1=new Stage();
-                    try {
-                        satge1.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Login_form.fxml"))));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    satge1.getIcons().add(new Image("assets/ikmanicon.png"));
-                    satge1.setTitle("ikman rental");
-                    satge1.show();
-                    satge1.setResizable(false);
-                    Stage stage2= (Stage) btnContinue.getScene().getWindow();
-                    stage2.close();
+                    System.exit(0);
+//                    setUi("Login_form.fxml");
+//                    new Alert(Alert.AlertType.CONFIRMATION,"Accunt Created :)").show();
+//                    Stage satge1=new Stage();
+//                    try {
+//                        satge1.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/Login_form.fxml"))));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    satge1.getIcons().add(new Image("assets/ikmanicon.png"));
+//                    satge1.setTitle("ikman rental");
+//                    satge1.show();
+//                    satge1.setResizable(false);
+//                    Stage stage2= (Stage) btnContinue.getScene().getWindow();
+//                    stage2.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

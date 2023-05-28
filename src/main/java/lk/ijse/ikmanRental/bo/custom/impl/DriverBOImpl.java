@@ -47,8 +47,9 @@ public class DriverBOImpl implements DriverBO {
     }
 
     @Override
-    public DriverDTO getAllDriversFromNIC(String nic) {
-        return null;
+    public DriverDTO getAllDriversFromNIC(String nic) throws SQLException {
+        Driver driver = driverDAO.getIdes(nic);
+        return new DriverDTO(driver.getNic(),driver.getGmail(),driver.getName(),driver.getGender(),driver.getStatus());
     }
 
     @Override

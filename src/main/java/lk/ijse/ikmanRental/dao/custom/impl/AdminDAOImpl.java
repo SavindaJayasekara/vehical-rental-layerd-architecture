@@ -34,6 +34,16 @@ public class AdminDAOImpl implements AdminDAO {
 
     @Override
     public Admin getIdes(String s) throws SQLException {
+        ResultSet resultSet=SQLUtil.execute("SELECT Gamil,Password,FirsName,LastName,AdminNIC FROM admin WHERE Gamil=?",s);
+        if (resultSet.next()){
+            return new Admin(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            );
+        }
         return null;
     }
 
@@ -50,16 +60,7 @@ public class AdminDAOImpl implements AdminDAO {
     @Override
     public List<String> loadAllIds() throws SQLException {
         List<String> data = new ArrayList<>();
-
-        String sql="SELECT AdminNIC FROM admin";
-
-        ResultSet resultSet = null;
-        try {
-            resultSet = SQLUtil.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        ResultSet resultSet = SQLUtil.execute("SELECT AdminNIC FROM admin");
         while (resultSet.next()) {
             data.add(resultSet.getString(1));
         }
