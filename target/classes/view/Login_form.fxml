@@ -103,6 +103,6 @@
       </ImageView>
       <Label fx:id="lblGmailCheck" alignment="CENTER" contentDisplay="CENTER" layoutX="774.0" layoutY="551.0" prefHeight="17.0" prefWidth="219.0" textFill="RED" />
       <Label layoutX="14.0" layoutY="678.0" text="Engineered By : www.ijse.lk" textFill="WHITE" />
-      <Label layoutX="1078.0" layoutY="678.0" text="System Version 1.0.0" />
+      <Label layoutX="1078.0" layoutY="678.0" text="System Version 1.2.1" />
    </children>
 </AnchorPane>
