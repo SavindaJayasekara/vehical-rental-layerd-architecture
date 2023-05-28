@@ -3,13 +3,9 @@ package lk.ijse.ikmanRental.bo.custom.impl;
 import lk.ijse.ikmanRental.bo.custom.LogInBO;
 import lk.ijse.ikmanRental.dao.DAOFactory;
 import lk.ijse.ikmanRental.dao.custom.AdminDAO;
-import lk.ijse.ikmanRental.db.DBConnection;
 import lk.ijse.ikmanRental.dto.AdminDTO;
 import lk.ijse.ikmanRental.entity.Admin;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LogInBOImpl implements LogInBO {

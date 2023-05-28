@@ -121,6 +121,11 @@ public class LoginFormController {
 
     @FXML
     public void btnNextOnAction(ActionEvent actionEvent) throws SQLException, IOException {
+        if (txtGmail.getText().equals("")){
+            txtGmail.setStyle("-fx-border-color: red");
+            txtpasswordF.setStyle("-fx-border-color: red");
+            return;
+        }
         Detail.setGmail(txtGmail.getText());
         AdminDTO admin= logInBO.getloginDetail(txtGmail.getText());
         System.out.println(admin.toString());
@@ -229,6 +234,11 @@ public class LoginFormController {
     }
 
     public void hypPasswordForgrtOnAction(ActionEvent actionEvent) throws GeneralSecurityException, IOException {
+        if (txtGmail.getText().equals("")){
+            txtGmail.setStyle("-fx-border-color: red");
+            txtpasswordF.setStyle("-fx-border-color: red");
+            return;
+        }
 
         try {
             AdminDTO admin = logInBO.getloginDetail(txtGmail.getText());
