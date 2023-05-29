@@ -405,8 +405,8 @@ public class BookingFormController {
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
                 CustomerDTO allCustomer = bookingBO.getAllCustomerDetail(cmbCustomerNic.getValue());
                 String gmail=bookingBO.getDriverGmail(cmbCustomerDriverNic.getValue());
-                sendMail(allCustomer,gmail);
-//                    new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
+//                sendMail(allCustomer,gmail);
+//                new SendText().sendMail("ikmanRental(PVT)","Hi, you have a ride to + date for prime mover","thantrige32@gmail.com");
             }else {
                 new Alert(Alert.AlertType.WARNING,"Something Happened !").show();
             }

@@ -16,15 +16,15 @@ import java.util.List;
 
 public class HomeBOImpl implements HomeBO {
 
-    VehicleInDAO vehicleInDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLEIN);
-    CustomerDAO customerDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
-    VehicleDAO vehicleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
-    BookingDAO bookingDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
-    DriverDAO driverDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVER);
-    BookingDetailDAO detailDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKINGDETAIL);
-    DriverScheduleDAO driverScheduleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERSCHEDULE);
-    DriverPaymentDAO paymentDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERPAYMENT);
-    VehicleOutDAO vehicleOutDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLEOUT);
+    private final VehicleInDAO vehicleInDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLEIN);
+    private final CustomerDAO customerDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private final VehicleDAO vehicleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
+    private final BookingDAO bookingDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
+    private final DriverDAO driverDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVER);
+    private final BookingDetailDAO detailDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKINGDETAIL);
+    private final DriverScheduleDAO driverScheduleDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERSCHEDULE);
+    private final DriverPaymentDAO paymentDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DRIVERPAYMENT);
+    private final VehicleOutDAO vehicleOutDAO=DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLEOUT);
 
     @Override
     public List<VehicleInDTO> getAllVehicleIn() throws SQLException {

@@ -430,7 +430,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Launcher">
-    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Launcher" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Launcher" />
       <module name="ikmanrental" />
       <option name="VM_PARAMETERS" value="--module-path C:\jetbrains\javafx-sdk-19.0.2.1\lib --add-modules javafx.controls,javafx.fxml" />
@@ -464,20 +464,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Launcher" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.SendText" />
       </list>
@@ -522,7 +510,8 @@
       <workItem from="1685082578395" duration="243000" />
       <workItem from="1685083460875" duration="22174000" />
       <workItem from="1685120678617" duration="1058000" />
-      <workItem from="1685186426649" duration="13594000" />
+      <workItem from="1685186426649" duration="14051000" />
+      <workItem from="1685328855006" duration="4007000" />
     </task>
     <servers />
   </component>
