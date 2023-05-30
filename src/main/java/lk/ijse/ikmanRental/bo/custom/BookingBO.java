@@ -26,7 +26,7 @@ public interface BookingBO extends SuperBO {
 
     List<String> getAllCustomerNICFromCustomer()throws SQLException;
 
-    boolean saveBooking(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException;
+    boolean saveBooking(SaveBookingDTO saveBookingDTO) throws SQLException;
 
     CustomerDTO getAllCustomerDetail(String customerNic) throws SQLException;
 

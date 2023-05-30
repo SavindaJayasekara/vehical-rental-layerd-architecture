@@ -76,7 +76,13 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public boolean saveBooking(BookingDTO booking, BillDTO bill, DriverPaymentDTO driverPay, DriverScheduleDTO driverSchedule, BookingDetailDTO bookingDetail) throws SQLException {
+    public boolean saveBooking(SaveBookingDTO saveBookingDTO) throws SQLException {
+        BookingDTO booking=saveBookingDTO.getBooking();
+        BillDTO bill=saveBookingDTO.getBill();
+        DriverPaymentDTO driverPay=saveBookingDTO.getDriverPay();
+        DriverScheduleDTO driverSchedule=saveBookingDTO.getDriverSchedule();
+        BookingDetailDTO bookingDetail=saveBookingDTO.getBookingDetail();
+
 //        transaction save
         Connection connection=null;
         try {

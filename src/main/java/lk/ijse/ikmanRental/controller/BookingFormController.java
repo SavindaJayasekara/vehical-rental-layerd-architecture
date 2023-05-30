@@ -397,10 +397,14 @@ public class BookingFormController {
         DriverScheduleDTO driverSchedule = new DriverScheduleDTO(bookingID, driverNic);
         BookingDetailDTO bookingDetail = new BookingDetailDTO(bookingID, vehicleNumber,fuel);
 
+        SaveBookingDTO saveBookingDTO=new SaveBookingDTO(booking,bill,driverPay,driverSchedule,bookingDetail);
+
         boolean isBooked=false;
 
         try {
-            isBooked=bookingBO.saveBooking(booking,bill,driverPay,driverSchedule,bookingDetail);
+            // create DTO your choice !
+//            isBooked=bookingBO.saveBooking(booking,bill,driverPay,driverSchedule,bookingDetail);
+            isBooked=bookingBO.saveBooking(saveBookingDTO);
             if (isBooked){
                 new Alert(Alert.AlertType.CONFIRMATION,"Success !").show();
                 CustomerDTO allCustomer = bookingBO.getAllCustomerDetail(cmbCustomerNic.getValue());
