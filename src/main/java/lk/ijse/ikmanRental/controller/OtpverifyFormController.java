@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import lk.ijse.ikmanRental.bo.BOFactory;
 import lk.ijse.ikmanRental.bo.custom.AdminBO;
+import lk.ijse.ikmanRental.bo.custom.OTPVerifyBO;
 import lk.ijse.ikmanRental.dto.AdminDTO;
 import lk.ijse.ikmanRental.util.SendText;
 
@@ -43,7 +44,7 @@ public class OtpverifyFormController {
     private String password;
     private String otp;
 
-    AdminBO adminBO= BOFactory.getInstance().getBO(BOFactory.BOTypes.ADMIN);
+    OTPVerifyBO otpVerifyBO=BOFactory.getInstance().getBO(BOFactory.BOTypes.OTPVERIFY);
 
     @FXML
     void initialize(){
@@ -97,7 +98,7 @@ public class OtpverifyFormController {
 
         if(txtOtp.getText().equals(otp)){
             try {
-                boolean result= adminBO.saveAdmin(admin);
+                boolean result= otpVerifyBO.saveAdmin(admin);
                 if(result){
                     System.exit(0);
 //                    setUi("Login_form.fxml");
