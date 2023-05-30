@@ -23,12 +23,12 @@ public class VehicleInDAOImpl implements VehicleInDAO{
 
     @Override
     public boolean update(VehicleIn dto) throws SQLException {
-        return false;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override
     public boolean delete(String s) throws SQLException {
-        return false;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override
@@ -49,6 +49,6 @@ public class VehicleInDAOImpl implements VehicleInDAO{
 
     @Override
     public VehicleIn getIdes(String s) throws SQLException {
-        return null;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 }

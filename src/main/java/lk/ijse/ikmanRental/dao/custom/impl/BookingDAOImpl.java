@@ -86,11 +86,6 @@ public class BookingDAOImpl implements BookingDAO{
     }
 
     @Override
-    public boolean addBooking(Booking booking, Bill bill, DriverPayment driverPay, DriverSchedule driverSchedule, BookingDetail bookingDetail) throws SQLException {
-        return false;
-    }
-
-    @Override
     public List<String> getBookingIds() throws SQLException {
         List<String> bookingiDs=new ArrayList<>();
         ResultSet resultSet=SQLUtil.execute("SELECT BookingID FROM booking");

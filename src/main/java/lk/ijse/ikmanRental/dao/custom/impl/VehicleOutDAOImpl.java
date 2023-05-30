@@ -22,21 +22,21 @@ public class VehicleOutDAOImpl implements VehicleOutDAO {
 
     @Override
     public boolean update(VehicleOut dto) {
-        return false;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override
     public boolean delete(String s) {
-        return false;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override
     public List<VehicleOut> getAll() {
-        return null;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override
     public VehicleOut getIdes(String s) {
-        return null;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 }

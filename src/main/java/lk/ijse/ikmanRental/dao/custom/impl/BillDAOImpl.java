@@ -30,7 +30,7 @@ public class BillDAOImpl implements BillDAO {
 
     @Override
     public List<Bill> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override

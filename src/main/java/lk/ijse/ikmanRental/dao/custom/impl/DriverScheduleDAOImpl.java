@@ -27,7 +27,7 @@ public class DriverScheduleDAOImpl implements DriverScheduleDAO{
 
     @Override
     public List<DriverSchedule> getAll() throws SQLException {
-        return null;
+        throw new UnsupportedOperationException("This feature yet to be developed");
     }
 
     @Override

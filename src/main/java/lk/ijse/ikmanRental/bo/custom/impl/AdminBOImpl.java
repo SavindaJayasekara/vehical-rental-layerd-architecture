@@ -26,7 +26,7 @@ public class AdminBOImpl implements AdminBO {
 
     @Override
     public boolean update(AdminDTO adminDTO) throws SQLException {
-        return adminDAO.update(new lk.ijse.ikmanRental.entity.Admin(adminDTO.getNIC(), adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getGmail(), adminDTO.getPassword()));
+        return adminDAO.update(new Admin(adminDTO.getNIC(), adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getGmail(), adminDTO.getPassword()));
     }
 
     @Override
