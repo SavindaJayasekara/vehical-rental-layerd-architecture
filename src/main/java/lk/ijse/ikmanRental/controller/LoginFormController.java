@@ -128,8 +128,6 @@ public class LoginFormController {
         }
         Detail.setGmail(txtGmail.getText());
         AdminDTO admin= logInBO.getloginDetail(txtGmail.getText());
-        System.out.println(admin.toString());
-
         try {
             if (admin.getNIC().equals(txtpasswordF.getText())) {
                 setUi("dashBord_form.fxml");

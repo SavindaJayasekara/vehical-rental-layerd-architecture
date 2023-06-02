@@ -413,7 +413,7 @@
     <property name="ToolWindowCoverage.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../WorkZone/Practical/Layered-Architecture/Layered_Architecture" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -429,7 +429,7 @@
       <recent name="E:\ikmanrental\src\main\resources\file" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Launcher">
+  <component name="RunManager">
     <configuration name="Launcher" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Launcher" />
       <module name="ikmanrental" />
@@ -438,38 +438,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SendText" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lk.ijse.ikmanRental.util.SendText" />
-      <module name="ikmanrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="lk.ijse.ikmanRental.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lk.ijse.ikmanRental.Test" />
-      <module name="ikmanrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="lk.ijse.ikmanRental.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.SendText" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -512,7 +493,10 @@
       <workItem from="1685120678617" duration="1058000" />
       <workItem from="1685186426649" duration="14051000" />
       <workItem from="1685328855006" duration="8605000" />
-      <workItem from="1685419027800" duration="3910000" />
+      <workItem from="1685419027800" duration="6125000" />
+      <workItem from="1685420918067" duration="2980000" />
+      <workItem from="1685460383275" duration="2235000" />
+      <workItem from="1685512756257" duration="2989000" />
     </task>
     <servers />
   </component>

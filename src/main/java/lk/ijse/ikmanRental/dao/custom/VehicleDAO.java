@@ -8,17 +8,7 @@ import java.util.List;
 
 public interface VehicleDAO extends CrudDAO<Vehicle,String> {
 
-//     boolean save(Vehicle vehicle) throws SQLException ;
-
-//     List<Vehicle> getAll() throws SQLException ;
-
      List<String> loadNumbers() throws SQLException ;
-
-//     Vehicle getAll(String number) throws SQLException ;
-
-//     boolean update(Vehicle vehicle) throws SQLException ;
-
-//     boolean delete(String number) throws SQLException ;
 
      List<String> getAvailbleType(String type) throws SQLException ;
 

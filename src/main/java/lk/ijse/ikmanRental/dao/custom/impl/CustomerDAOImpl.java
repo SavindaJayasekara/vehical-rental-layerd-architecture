@@ -70,9 +70,8 @@ public class CustomerDAOImpl  implements CustomerDAO{
         ResultSet resultSet= SQLUtil.execute("SELECT CustomerNIC FROM customer");
         while (resultSet.next()){
             ides.add(resultSet.getString(1));
-            return ides;
         }
-        return null;
+        return ides;
     }
 
     @Override

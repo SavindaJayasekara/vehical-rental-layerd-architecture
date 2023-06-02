@@ -94,7 +94,7 @@ public class OtpverifyFormController {
 
     @FXML
     public void btnContinueOnAction(ActionEvent actionEvent) throws IOException {
-        AdminDTO admin = new AdminDTO(Fname,Lname,NIC,password,Gmail);
+        AdminDTO admin = new AdminDTO(Lname,NIC,Fname,Gmail,password);
 
         if(txtOtp.getText().equals(otp)){
             try {

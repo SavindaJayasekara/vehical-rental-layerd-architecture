@@ -10,17 +10,8 @@ public interface DriverPaymentDAO extends CrudDAO<DriverPayment,String> {
 
      String splitOrderId(String currentId) ;
 
-//     boolean save(DriverPayment driverPay) throws SQLException ;
-
-//     DriverPayment getAll(String id) throws SQLException ;
-
-//     boolean delete(String driverNIC) throws SQLException ;
-
-//     boolean update(DriverPayment driverPay) throws SQLException ;
-
      String getPaymentID(String id) throws SQLException ;
 
      boolean updatePayment(String driverNic) throws SQLException ;
 
-//     List<DriverPayment> getAll() throws SQLException ;
 }

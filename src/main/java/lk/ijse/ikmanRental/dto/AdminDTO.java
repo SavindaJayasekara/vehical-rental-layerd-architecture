@@ -18,9 +18,10 @@ public class AdminDTO {
         this.gmail = gmail;
     }
 
+
+    private String NIC;
     private String firstName;
     private String LastName;
-    private String NIC;
-    private String password;
     private String gmail;
+    private String password;
 }

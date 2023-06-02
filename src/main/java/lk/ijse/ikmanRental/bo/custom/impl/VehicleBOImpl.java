@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleBOImpl implements VehicleBO {
+
     VehicleDAO vehicleDAO= DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.VEHICLE);
+
     @Override
     public List<String> loadVehicleNumbers() throws SQLException {
         return vehicleDAO.loadNumbers();

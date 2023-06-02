@@ -11,24 +11,9 @@ public interface BookingDAO extends CrudDAO<Booking,String> {
 
     String splitOrderId(String currentId) ;
 
-//    boolean addBooking(Booking booking, Bill bill, DriverPayment driverPay, DriverSchedule driverSchedule, BookingDetail bookingDetail) throws SQLException ;
-
-//     boolean save(Booking booking) throws SQLException ;
-
-//    List<Booking> getAll() throws SQLException ;
-
     List<String> getBookingIds() throws SQLException ;
 
-//    Booking getAllFromID(String id) throws SQLException ;
-
-//    boolean delete(String id) throws SQLException ;
-
      boolean deleteBooking(String id) throws SQLException ;
-
-
-//    boolean update(Booking booking, Bill bill, DriverPayment driverPay, DriverSchedule driverSchedule, BookingDetail bookingDetail) throws SQLException ;
-
-//     boolean updateBooking(Booking booking) throws SQLException ;
 
     List<String> getRunningIds() throws SQLException ;
 

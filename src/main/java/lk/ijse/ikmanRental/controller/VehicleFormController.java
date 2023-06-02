@@ -274,7 +274,8 @@ public class VehicleFormController {
             }
         }
 
-        initialize();
+        getAllVehicles();
+        setVehicleNumbers();
     }
 
     @FXML

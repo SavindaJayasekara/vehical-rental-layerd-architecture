@@ -45,7 +45,7 @@ public class SendText {
         // Load client secrets.
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(gsonFactory,
                 new InputStreamReader(SendText.class.getResourceAsStream
-                        ("/api/client_secret_1095393332488-blt4j04a8coiakttg385vqin13df97i1.apps.googleusercontent.com.json")));
+                        ("/api/client_secret_95728653818-ln8fjuq6khitt34a6q2qc8sn2hot6464.apps.googleusercontent.com.json")));
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, gsonFactory, clientSecrets, Set.of(GmailScopes.GMAIL_SEND))
@@ -93,15 +93,15 @@ public class SendText {
         }
     }
 
-//    public static void main(String[] args) {
-//        try {
-//            new SendText().sendMail("rent(PVT)","created problem","thantrige32@gmail.com");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        } catch (GeneralSecurityException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void main(String[] args) {
+        try {
+            new SendText().sendMail("rent(PVT)","created problem from debug !","thantrige32@gmail.com");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+    }
 }
